@@ -63,7 +63,7 @@ stats = neat.StatisticsReporter()
 p.add_reporter(neat.StdOutReporter(True))
 p.add_reporter(stats)
 
-NUMBER_OF_GENERATIONS = 15
+NUMBER_OF_GENERATIONS = 50
 
 winner = p.run(eval_genomes, NUMBER_OF_GENERATIONS)
 visualize.plot_stats(stats, ylog=False, view=True)

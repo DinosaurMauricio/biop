@@ -10,7 +10,7 @@ import cv2
 path = os.path.dirname(__file__)
 
 
-with open(path + '\winner-invaders', 'rb') as f:
+with open(path + '\winner-invaders_best', 'rb') as f:
     print(f)
     c = pickle.load(f)
 
