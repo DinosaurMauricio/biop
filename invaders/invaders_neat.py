@@ -20,7 +20,7 @@ def eval_genomes(genomes, config):
         inx = int(inx/8)
         iny = int(iny/8)
 
-        net = neat.nn.RecurrentNetwork.create(genome, config)
+        net = neat.nn.FeedForwardNetwork.create(genome, config)
 
         fitness_current = 0
         early_stop_counter = 0
@@ -63,7 +63,7 @@ stats = neat.StatisticsReporter()
 p.add_reporter(neat.StdOutReporter(True))
 p.add_reporter(stats)
 
-NUMBER_OF_GENERATIONS = 50
+NUMBER_OF_GENERATIONS = 25
 
 winner = p.run(eval_genomes, NUMBER_OF_GENERATIONS)
 visualize.plot_stats(stats, ylog=False, view=True)
