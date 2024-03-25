@@ -7,32 +7,32 @@ from tensorflow.keras.layers import Dense, Flatten, Conv2D
 import numpy as np
 from tensorflow.keras import Input
 import cv2 as cv
-
-
-#def model_build(in_dimen, out_dimen):
-#    model = Sequential()
-#    model.add(Input(shape=in_dimen))
-#    model.add(Conv2D(16, (8, 8), strides=(4, 4),
-#              activation='relu'))
-#    model.add(Conv2D(32, (4, 4), strides=(2, 2), activation='relu'))
-#    model.add(Flatten())
-#    model.add(Dense(256, activation='relu'))
-#    model.add(Dense(out_dimen, activation='softmax'))
-#    model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
-#    return model
+import time
 
 def model_build(in_dimen, out_dimen):
     model = Sequential()
     model.add(Input(shape=in_dimen))
-    model.add(Conv2D(32, (8, 8), strides=(4, 4), activation='relu'))
-    model.add(Conv2D(64, (4, 4), strides=(2, 2), activation='relu'))
-    model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
+    model.add(Conv2D(16, (8, 8), strides=(4, 4),
+              activation='relu'))
+    model.add(Conv2D(32, (4, 4), strides=(2, 2), activation='relu'))
     model.add(Flatten())
-    model.add(Dense(512, activation='relu'))
+    model.add(Dense(256, activation='relu'))
     model.add(Dense(out_dimen, activation='softmax'))
     model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
     return model
 
+#def model_build(in_dimen, out_dimen):
+#    model = Sequential()
+#    model.add(Input(shape=in_dimen))
+#    model.add(Conv2D(32, (8, 8), strides=(4, 4), activation='relu'))
+#    model.add(Conv2D(64, (4, 4), strides=(2, 2), activation='relu'))
+#    model.add(Conv2D(64, (3, 3), strides=(1, 1), activation='relu'))
+#    model.add(Flatten())
+#    model.add(Dense(512, activation='relu'))
+#    model.add(Dense(out_dimen, activation='softmax'))
+#    model.compile(loss='mse', optimizer='adam', metrics=['accuracy'])
+#    return model
+#
 
 def model_weights_as_matrix(model, weights_vector):
     weights_matrix = []
@@ -76,15 +76,15 @@ def evaluate(individual, env):
 
     model = model_build(in_dimen, out_dimen)
     model.set_weights(model_weights_as_matrix(model, individual))
-
+    start_time = time.time()  # Record the start time
     total_reward = 0
     done = False
     while not done:
         obs = np.expand_dims(obs, axis=0)
         action_probs = model.predict(obs)
         action = np.argmax(action_probs)
-        print('the action is:', action)
-        print('the action probs is:', action_probs)
+        #print('the action is:', action)
+        #print('the action probs is:', action_probs)
         #action = 0 if action < 0.5 else 1
 
 
@@ -102,7 +102,12 @@ def evaluate(individual, env):
         obs = cv.cvtColor(obs, cv.COLOR_RGB2GRAY)
         # Normalize pixel values to range [0, 1]
         obs = obs / 255.0
+
+        elapsed_time = time.time() - start_time
+        survival_reward = elapsed_time / MAX_DURATION  # Normalize reward by max duration
+        total_reward += survival_reward
         
         total_reward += reward
 
     return total_reward,
+MAX_DURATION = 600  # Assuming 600 time steps per episode

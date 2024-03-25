@@ -21,7 +21,7 @@ env.reset()
 obs, _ = env.reset()
 in_dimen = env.observation_space.shape
 in_dimen = (env.observation_space.shape[0], env.observation_space.shape[1], 1)
-out_dimen = 2
+out_dimen = env.action_space.n
 
 
 # print('the in dimension is ', in_dimen)
@@ -31,8 +31,9 @@ ind_size = model.count_params()
 
 creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 creator.create("Individual", list, fitness=creator.FitnessMax)
-
-with open(path + "/atari_invaders_model_2.pkl", 'rb') as file:
+#'C:\Users\link5\Documents\SideProjects\AI\BioInspired-Project\atari_invaders_model_2.pkl'
+with open ("C:\\Users\\link5\\Documents\\SideProjects\\AI\\BioInspired-Project\\invaders_deap\\atari_invaders_model_2.pkl", 'rb') as file:
+#with open(path + "/atari_invaders_model_2.pkl", 'rb') as file:
     best = pickle.load(file)
 
 
@@ -53,16 +54,7 @@ while done == False:
         action_probs = model.predict(obs)
         #print(action_probs)
         action = np.argmax(action_probs)
-        action = 0 if action < 0.5 else 1
 
-
-        #if action != 0 or action != 1:
-        #    print(action)
-        #    break
-        if action == 0:
-            action = 5
-        elif action == 1:
-            action = 4
         obs, reward, done, _, info = env.step(action)
 
         # Convert observation to grayscale

@@ -18,6 +18,14 @@ env.reset()
 in_dimen = env.observation_space.shape
 out_dimen = env.action_space.n
 
+
+initial_range = (-1.0, 1.0)  # Adjust this range based on your problem domain
+
+def initial_weight():
+    # Sample initial weights from the defined range
+    return np.random.uniform(initial_range[0], initial_range[1])
+
+
 # The rest of your code remains unchanged
 model = model_build(in_dimen, out_dimen)
 ind_size = model.count_params()
@@ -28,13 +36,16 @@ creator.create("Individual", list, fitness=creator.FitnessMax)
 
 toolbox = base.Toolbox()
 toolbox.register("weight_bin", random.random)
+#toolbox.register("individual", tools.initRepeat,
+#                 creator.Individual, toolbox.weight_bin, n=ind_size)
+
 toolbox.register("individual", tools.initRepeat,
-                 creator.Individual, toolbox.weight_bin, n=ind_size)
+                 creator.Individual, initial_weight, n=ind_size)
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)
 
 
 toolbox.register("mate", tools.cxTwoPoint)
-toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=0.1, indpb=0.7)
+toolbox.register("mutate", tools.mutGaussian, mu=0, sigma=0.1, indpb=0.3)
 toolbox.register("select", tools.selBest)
 toolbox.register("evaluate", evaluate, env=env)
 
@@ -52,11 +63,11 @@ if __name__ == "__main__":
     stats.register("Max", np.max)
     stats.register("Min", np.min)
 
-    pop = toolbox.population(n=20)  # n =20
+    pop = toolbox.population(n=30)  # n =20
     hof = tools.HallOfFame(2)
 
     pop, log = algorithms.eaSimple(
-        pop, toolbox, cxpb=0.7, mutpb=0.4, ngen=5,  halloffame=hof, stats=stats)
+        pop, toolbox, cxpb=0.85, mutpb=0.01, ngen=10,  halloffame=hof, stats=stats)
     best_pop = sorted(pop, key=lambda ind: ind.fitness,
                       reverse=True)[0]  # ngen =5
     pool.close()
