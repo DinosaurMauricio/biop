@@ -58,6 +58,13 @@ def eval_genomes(env, genomes, config):
             ob = cv2.resize(ob, (inx, iny))
             ob = cv2.cvtColor(ob, cv2.COLOR_BGR2GRAY)
 
+            ob = cv2.GaussianBlur(ob, (3, 3), 0)
+            noise = np.zeros(ob.shape, np.uint8)
+            cv2.randn(noise, 0, 1) 
+
+            # Add noise to the image
+            ob = cv2.add(ob, noise)
+
             imgarrays = np.ndarray.flatten(ob)
             net_output = net.activate(imgarrays)
 
