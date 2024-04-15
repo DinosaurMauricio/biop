@@ -11,8 +11,8 @@ from utils import model_build, evaluate
 
 
 INIITIAL_WEIGTH_RANGE = (-1.0, 1.0)
-POPULATION = 2
-NGEN = 1
+POPULATION = 50
+NGEN = 20
 
 def initial_weight():
     return np.random.uniform(INIITIAL_WEIGTH_RANGE[0], INIITIAL_WEIGTH_RANGE[1])
@@ -53,9 +53,9 @@ def train(game):
     in_dimen = env.observation_space.shape
     out_dimen = env.action_space.n
 
-
-    number_of_params = model.count_params()
     model = model_build(in_dimen, out_dimen)
+    number_of_params = model.count_params()
+
     toolbox = setup_toolbox(number_of_params, env)
     
     random.seed(64)
