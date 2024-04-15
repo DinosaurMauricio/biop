@@ -82,6 +82,7 @@ def train(game):
 
     path = os.path.dirname(__file__)
 
+    os.makedirs(f'{path}/winners', exist_ok=True)
     with open(f"{path}\winners\winner-{game_name}.pkl", "wb") as cp_file:
         pickle.dump(best_pop, cp_file)
 

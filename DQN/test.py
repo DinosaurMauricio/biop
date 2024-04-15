@@ -12,9 +12,13 @@ def test(game):
     
     game_name = game.split('/')[1].split('-')[0].lower()
 
-    model_path = os.path.join(f'{path}/winners/dqn_{game_name}')
+    complete_path = f'{path}\winners\dqn_{game_name}'
 
-    model = DQN.load(model_path)
+    if not os.path.exists(f'{complete_path}.zip'):
+        print(f"File {complete_path} does not exist. Exiting.")
+        exit(1)
+        
+    model = DQN.load(complete_path)
 
     vec_env = make_atari_env(game, n_envs=1, seed=0, env_kwargs={"render_mode": "human"},wrapper_kwargs={"screen_size": 42})
 

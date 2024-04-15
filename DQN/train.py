@@ -19,5 +19,6 @@ def train(game):
 
     game_name = game.split('/')[1].split('-')[0].lower()
     path = os.path.dirname(__file__) 
-    
+
+    os.makedirs(f'{path}\winners', exist_ok=True)
     model.save(f'{path}\winners\dqn_{game_name}', 'wb')

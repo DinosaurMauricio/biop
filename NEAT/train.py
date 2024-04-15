@@ -31,7 +31,7 @@ def train(game_name):
     visualize.plot_stats(stats, ylog=False, view=True)
     visualize.plot_species(stats, view=True)
 
-
+    os.makedirs(f'{path}/winners', exist_ok=True)
     with open(f'{path}\winners\winner-{game}', 'wb') as f:
         pickle.dump(winner, f, 1)
 

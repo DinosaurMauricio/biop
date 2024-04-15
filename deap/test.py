@@ -23,8 +23,14 @@ def test(game):
     creator.create("Individual", list, fitness=creator.FitnessMax)
 
     game_name = game.split('/')[1].split('-')[0].lower()
+
+    complete_path = f"{path}\winners\winner-{game_name}.pkl"
     
-    with open (f"{path}\winners\winner-{game_name}.pkl", 'rb') as file:
+    if not os.path.exists(f'{complete_path}'):
+        print(f"File {complete_path} does not exist. Exiting.")
+        exit(1)
+    
+    with open (complete_path, 'rb') as file:
         best = pickle.load(file)
 
 

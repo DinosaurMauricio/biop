@@ -8,15 +8,19 @@ import cv2
 
 
 def test(game_name):
-
-
-
-    # read current path folder
+    
     path = os.path.dirname(__file__)
 
 
     game = game_name.split('/')[1].split('-')[0].lower()
-    with open(f'{path}\winners\winner-{game}', 'rb') as f:
+
+    complete_path = f'{path}\winners\winner-{game}'
+
+    if not os.path.exists(f'{complete_path}'):
+        print(f"File {complete_path} does not exist. Exiting.")
+        exit(1)
+
+    with open(complete_path, 'rb') as f:
         print(f)
         c = pickle.load(f)
 
