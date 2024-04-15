@@ -6,7 +6,6 @@ import pickle
 import multiprocessing
 import time
 import os
-import cv2 as cv
 from deap import base, creator, tools, algorithms
 from utils import model_build, evaluate
 
@@ -55,8 +54,8 @@ def train(game):
     out_dimen = env.action_space.n
 
 
-    model = model_build(in_dimen, out_dimen)
     number_of_params = model.count_params()
+    model = model_build(in_dimen, out_dimen)
     toolbox = setup_toolbox(number_of_params, env)
     
     random.seed(64)

@@ -1,0 +1,8 @@
+
+/old_tests/*
+/deap/__pycache__/*
+/NEAT/__pycache__/*
+/DQN/__pycache__/*
+/deap/winners/*
+/NEAT/winners/*
+/DQN/winners/*
