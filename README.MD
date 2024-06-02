@@ -1,0 +1,3 @@
+# Comparative Analysis of Learning Techniques with Atari Games
+
+This project conducts a comparative analysis of Evolutionary Algorithms (EAs) and Neural Systems, focusing mainly on Bio-Inspired algorithms, to assess their effectiveness in learning to play classic Atari video games. The main algorithms studied are Genetic Algorithms (GA), NEAT (NeuroEvolution of Augmenting Topologies), and Deep Q-Network (DQN). The goal is to uncover the strengths and weaknesses of these algorithms in adapting to different gaming scenarios.
